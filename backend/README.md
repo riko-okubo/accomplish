@@ -28,6 +28,7 @@ erDiagram
 
     File {
         ForeignKey user_id
+        ForeignKey folder_id
         Char title
         Text vision
         Enum status
@@ -39,6 +40,7 @@ erDiagram
     Todo {
         ForeignKey user_id
         ForeignKey folder_id
+        ForeignKey file_id
         Char title
         Text content
         Text memo
