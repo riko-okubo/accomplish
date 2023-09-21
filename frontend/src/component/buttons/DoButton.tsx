@@ -1,8 +1,8 @@
 import { Button } from "@chakra-ui/react";
-import { useAuth } from "../../AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { accessPointURL } from "../../api/accessPoint";
 
-const DoneButton = ({
+const DoButton = ({
   taskId,
   onClose,
   memo,
@@ -11,7 +11,9 @@ const DoneButton = ({
   onClose: () => void;
   memo: string;
 }) => {
+  console.log("taskId:", taskId);
   const { auth } = useAuth();
+
   const patchStatus = async () => {
     const response = await fetch(`${accessPointURL}task/${taskId}/`, {
       method: "PATCH",
@@ -19,13 +21,13 @@ const DoneButton = ({
         "Content-Type": "application/x-www-form-urlencoded",
         Authorization: `Token ${auth.token}`,
       },
-      body: `status=done`,
+      body: `status=doing`,
     });
     if (response.status === 200) {
       console.log("status PATCH成功", response);
       onClose();
     } else {
-      console.log("PATCH失敗", response);
+      console.log("status PATCH失敗", response);
     }
   };
 
@@ -42,28 +44,25 @@ const DoneButton = ({
       console.log("memo PATCH成功", response);
       onClose();
     } else {
-      console.log("PATCH失敗", response);
+      console.log("memo PATCH失敗", response);
     }
   };
 
   const handleClick = async () => {
-    console.log("1つめ");
-    await patchStatus();
-    console.log("2つめ");
-
-    await patchMemo();
+    patchStatus();
+    patchMemo();
   };
 
   return (
     <Button
-      onClick={() => handleClick()}
-      bg={"blue.500"}
+      onClick={handleClick}
+      bg={"yellow.500"}
       textColor={"white"}
       _hover={{ opacity: 0.8 }}
     >
-      Done !
+      In progress
     </Button>
   );
 };
 
-export { DoneButton };
+export { DoButton };

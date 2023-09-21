@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
-import { Task, Tasks } from "./type/Types";
-import { accessPointURL } from "./api/accessPoint";
+import { Task, Tasks } from "../type/Types";
+import { accessPointURL } from "../api/accessPoint";
 import { useAuth } from "./AuthContext";
 
 type TaskContextType = {

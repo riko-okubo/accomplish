@@ -1,8 +1,8 @@
 import { Box, Text, Textarea } from "@chakra-ui/react";
 import { Task } from "../type/Types";
-import { DoneButton } from "../component/atoms/DoneButton";
-import { DoButton } from "../component/atoms/DoButton";
-import { useAuth } from "../AuthContext";
+import { DoneButton } from "../component/buttons/DoneButton";
+import { DoButton } from "../component/buttons/DoButton";
+import { useAuth } from "../context/AuthContext";
 import { useState } from "react";
 
 const NotDoneTaskPage = ({

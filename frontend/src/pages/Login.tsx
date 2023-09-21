@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useState } from "react";
-import { useAuth } from "../AuthContext";
+import { useAuth } from "../context/AuthContext";
 import { accessPointURL } from "../api/accessPoint";
 
 type formInputs = {
@@ -45,8 +45,7 @@ const Login = () => {
     if (response.status === 401) {
       console.log("tokenが無効です");
     } else if (response.status === 200) {
-      const responseData = await response.json();
-      navigate(responseData.position_id === 1 ? "/fresherTop" : "/elderTop");
+      navigate("/home");
     } else {
       console.log("GET失敗");
     }

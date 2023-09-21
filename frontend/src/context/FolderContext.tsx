@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
-import { Folders } from "./type/Types";
-import { accessPointURL } from "./api/accessPoint";
+import { Folders } from "../type/Types";
+import { accessPointURL } from "../api/accessPoint";
 import { useAuth } from "./AuthContext";
 
 const FolderContext = createContext<{
