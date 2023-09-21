@@ -16,10 +16,9 @@ import {
 } from "@chakra-ui/react";
 import { AddIcon, Icon } from "@chakra-ui/icons";
 import { useContext, useState } from "react";
-import { FolderContext } from "../../FolderContext";
+import { FolderContext } from "../../context/FolderContext";
 import { accessPointURL } from "../../api/accessPoint";
 import { useAuth } from "../../context/AuthContext";
-import { FresherContext } from "../../fresherContext";
 
 const CreateFolderButton = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,8 +26,7 @@ const CreateFolderButton = () => {
   const [vision, setVision] = useState("");
   const [error, setError] = useState("");
 
-  const { auth } = useAuth();
-  const { fresher } = useContext(FresherContext);
+  const { user, auth } = useAuth();
   const { folders, setFolders, setActiveFolderId } = useContext(FolderContext);
 
   const handleSubmit = async () => {
@@ -42,7 +40,7 @@ const CreateFolderButton = () => {
         tasks: [],
       };
       const postFolderContents = {
-        receiver_id: fresher.id,
+        receiver_id: user.id,
         title: title,
         vision: vision,
         tasks: [],

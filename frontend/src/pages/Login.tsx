@@ -45,7 +45,6 @@ const Login = () => {
     if (response.status === 401) {
       console.log("tokenが無効です");
     } else if (response.status === 200) {
-      const responseData = await response.json();
       navigate("/home");
     } else {
       console.log("GET失敗");

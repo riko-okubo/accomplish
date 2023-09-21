@@ -1,7 +1,6 @@
-import { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import { useAuth } from "./AuthContext";
 import { accessPointURL } from "../api/accessPoint";
-import { FresherContext } from "./fresherContext";
 import { Folders } from "../type/Types";
 
 type ElderFolderContextType = {
@@ -20,18 +19,17 @@ const ElderFolderContextProvider = ({
   children: React.ReactNode;
 }) => {
   const [elderFolders, setElderFolders] = useState<Folders>([]);
-  const { auth } = useAuth();
-  const { fresher } = useContext(FresherContext);
+  const { user, auth } = useAuth();
 
   const getElderFolder = async ({
     token,
-    fresherId,
+    userId,
   }: {
     token: string;
-    fresherId: number;
+    userId: number;
   }) => {
     const response = await fetch(
-      `${accessPointURL}folders/?receiver_id=${fresherId}`,
+      `${accessPointURL}folders/?receiver_id=${userId}`,
       {
         method: "GET",
         headers: {
@@ -46,9 +44,9 @@ const ElderFolderContextProvider = ({
 
   useEffect(() => {
     if (auth.token !== undefined) {
-      getElderFolder({ token: auth.token, fresherId: fresher.id });
+      getElderFolder({ token: auth.token, userId: user.id });
     }
-  }, [auth.token, fresher.id, elderFolders]);
+  }, [auth.token, user.id, elderFolders]);
 
   return (
     <ElderFolderContext.Provider
