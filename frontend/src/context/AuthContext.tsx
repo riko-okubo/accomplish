@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
-import { accessPointURL } from "./api/accessPoint";
-import { Auth, User } from "./type/Types";
+import { accessPointURL } from "../api/accessPoint";
+import { Auth, User } from "../type/Types";
 type AuthContextType = {
   auth: Auth;
   setAuth: React.Dispatch<React.SetStateAction<Auth>>;

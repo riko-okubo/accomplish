@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
-import { Fresher, Freshers } from "./type/Types";
-import { accessPointURL } from "./api/accessPoint";
+import { Fresher, Freshers } from "../type/Types";
+import { accessPointURL } from "../api/accessPoint";
 import { useAuth } from "./AuthContext";
 
 const FresherContext = createContext<{

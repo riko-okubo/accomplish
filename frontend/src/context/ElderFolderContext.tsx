@@ -1,8 +1,8 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { useAuth } from "./AuthContext";
-import { accessPointURL } from "./api/accessPoint";
+import { accessPointURL } from "../api/accessPoint";
 import { FresherContext } from "./fresherContext";
-import { Folders } from "./type/Types";
+import { Folders } from "../type/Types";
 
 type ElderFolderContextType = {
   elderFolders: Folders;

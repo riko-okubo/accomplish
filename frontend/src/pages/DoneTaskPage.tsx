@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Commenter from "../component/atoms/Commenter";
+import Commenter from "../component/comments&reactions/Commenter";
 
 import {
   Box,
@@ -15,12 +15,12 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { Comments, Task, Emotions } from "../type/Types";
-import { useAuth } from "../AuthContext";
+import { useAuth } from "../context/AuthContext";
 import { accessPointURL } from "../api/accessPoint";
-import { FaceIcons, iconList } from "../component/likes_comments/FaceIcons";
+import { FaceIcons, iconList } from "../component/comments&reactions/FaceIcons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFaceSmile } from "@fortawesome/free-regular-svg-icons";
-import { Icon } from "../component/likes_comments/FaceIcons";
+import { Icon } from "../component/comments&reactions/FaceIcons";
 
 const DoneTaskPage = ({ task }: { task: Task }) => {
   const [comments, setComments] = useState<Comments>([]);

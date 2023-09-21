@@ -18,7 +18,7 @@ import { AddIcon, Icon } from "@chakra-ui/icons";
 import { useContext, useState } from "react";
 import { FolderContext } from "../../FolderContext";
 import { accessPointURL } from "../../api/accessPoint";
-import { useAuth } from "../../AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { FresherContext } from "../../fresherContext";
 
 const CreateFolderButton = () => {

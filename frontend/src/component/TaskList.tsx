@@ -9,13 +9,13 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react";
 import { useContext, useEffect, useRef, useState } from "react";
-import { FolderContext } from "../FolderContext";
-import { TaskContext } from "../TaskContext";
+import { FolderContext } from "../context/FolderContext";
+import { TaskContext } from "../context/TaskContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 import { faPersonRunning } from "@fortawesome/free-solid-svg-icons";
-import { CreateTaskButton } from "./atoms/CreateTaskButton";
-import { useAuth } from "../AuthContext";
+import { CreateTaskButton } from "./buttons/CreateTaskButton";
+import { useAuth } from "../context/AuthContext";
 import { accessPointURL } from "../api/accessPoint";
 import { DoneTaskPage } from "../pages/DoneTaskPage";
 import { NotDoneTaskPage } from "../pages/NotDoneTaskPage";
@@ -156,9 +156,7 @@ const TaskList = () => {
                   </Box>
                 ))}
 
-                {user.position_id !== 1 && (
-                  <CreateTaskButton activeFolderId={activeFolderId} />
-                )}
+                <CreateTaskButton activeFolderId={activeFolderId} />
               </VStack>
             </Box>
           )}

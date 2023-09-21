@@ -1,5 +1,18 @@
 import { accessPointURL } from "./accessPoint";
 
+const getUser = async (token: string) => {
+  const response = await fetch(`${accessPointURL}check_token/`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`,
+    },
+  });
+  const responseData = await response.json();
+  return responseData;
+};
+export { getUser };
+
 const getFolders = async (token: string) => {
   const response = await fetch(`${accessPointURL}folders/?type=received`, {
     method: "GET",

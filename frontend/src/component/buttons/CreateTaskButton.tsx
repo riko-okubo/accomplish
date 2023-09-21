@@ -18,8 +18,8 @@ import { AddIcon, Icon } from "@chakra-ui/icons";
 import { useForm } from "react-hook-form";
 import { Task } from "../../type/Types";
 import { useContext } from "react";
-import { TaskContext } from "../../TaskContext";
-import { useAuth } from "../../AuthContext";
+import { TaskContext } from "../../context/TaskContext";
+import { useAuth } from "../../context/AuthContext";
 import { accessPointURL } from "../../api/accessPoint";
 
 type formInputs = {

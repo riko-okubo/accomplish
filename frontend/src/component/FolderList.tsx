@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import { Flex, Button, Box } from "@chakra-ui/react";
-import { CreateFolderButton } from "./atoms/CreateFolderButton";
+import { CreateFolderButton } from "./buttons/CreateFolderButton";
 import { Folder, Folders } from "../type/Types";
-import { FolderContext } from "../FolderContext";
-import { useAuth } from "../AuthContext";
+import { FolderContext } from "../context/FolderContext";
+import { useAuth } from "../context/AuthContext";
 
 type Props = {
   activeFolderId: number | null;
@@ -41,7 +41,7 @@ const FolderList = () => {
         </Button>
       ))}
 
-      {/* {user.position_id !== 1 && <CreateFolderButton />} */}
+      <CreateFolderButton />
     </Flex>
   );
 };

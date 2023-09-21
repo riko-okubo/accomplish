@@ -1,4 +1,4 @@
-import { useAuth } from "../AuthContext";
+import { useAuth } from "../context/AuthContext";
 import { Folder } from "../type/Types";
 import { accessPointURL } from "./accessPoint";
 
