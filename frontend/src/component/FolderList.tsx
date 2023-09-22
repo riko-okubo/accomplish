@@ -13,8 +13,7 @@ type Props = {
 };
 
 const FolderList = () => {
-  const { user } = useAuth();
-  const { activeFolderId, setActiveFolderId, folders, setFolders }: Props =
+  const { activeFolderId, setActiveFolderId, folders }: Props =
     useContext(FolderContext);
 
   const handleFolderClick = (folder: Folder) => {
@@ -34,7 +33,8 @@ const FolderList = () => {
           rounded="none"
           key={folder.title}
           onClick={() => handleFolderClick(folder)}
-          bg={activeFolderId === folder.id ? "blue.100" : "white"}
+          bg={activeFolderId === folder.id ? "teal.400" : "white"}
+          textColor={activeFolderId === folder.id ? "white" : "black"}
           size="lg"
         >
           {folder.title}
