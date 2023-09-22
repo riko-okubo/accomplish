@@ -34,44 +34,23 @@ const NotDoneTaskPage = ({
         </Text>
       </Box>
       <Text color="gray.500" mb="1" mt="2" textAlign={"left"}>
-        過去のメモ
+        メモ
       </Text>
       <Box borderWidth="1px" borderRadius="lg" overflow="hidden" padding={"2"}>
         <Text color="gray.500" textAlign={"left"}>
           {task.memo}
         </Text>
       </Box>
-      <>
-        <Text color="gray.500" mb="1" mt="4" textAlign={"left"}>
-          メモ
-        </Text>
-        <Textarea
-          height="30vh"
-          value={value}
-          onChange={handleInputChange}
-          placeholder="Here is a sample placeholder"
-          size="sm"
-          resize="none"
-        />
-      </>
 
-      {user.position_id === 1 ? (
-        task.status === "doing" ? (
-          <DoneButton taskId={task.id} onClose={onClose} memo={value} />
+      <Box>
+        {task.status === "doing" ? (
+          <Text color={"orange"}>取り組み中</Text>
+        ) : task.status === "done" ? (
+          <Text color={"blue.400"}>完了</Text>
         ) : (
-          <DoButton taskId={task.id} onClose={onClose} memo={value} />
-        )
-      ) : (
-        <div>
-          {task.status === "doing" ? (
-            <Text color={"orange"}>取り組み中</Text>
-          ) : task.status === "done" ? (
-            <Text color={"blue.400"}>完了</Text>
-          ) : (
-            <Text color={"gray.500"}>未着手</Text>
-          )}
-        </div>
-      )}
+          <Text color={"gray.500"}>未着手</Text>
+        )}
+      </Box>
     </Box>
   );
 };

@@ -7,6 +7,7 @@ import {
   AlertDialogOverlay,
   AlertDialogContent,
   ModalCloseButton,
+  Center,
 } from "@chakra-ui/react";
 import { useContext, useEffect, useRef, useState } from "react";
 import { FolderContext } from "../context/FolderContext";
@@ -17,8 +18,7 @@ import { faPersonRunning } from "@fortawesome/free-solid-svg-icons";
 import { CreateTaskButton } from "./buttons/CreateTaskButton";
 import { useAuth } from "../context/AuthContext";
 import { accessPointURL } from "../api/accessPoint";
-import { DoneTaskPage } from "../pages/DoneTaskPage";
-import { NotDoneTaskPage } from "../pages/NotDoneTaskPage";
+import { TaskPage } from "../pages/TaskPage";
 import { Task } from "../type/Types";
 
 const TaskList = () => {
@@ -66,7 +66,7 @@ const TaskList = () => {
     }
   }, [auth.token, activeFolderId]);
   return (
-    <Box bg="blue.100" w="100%" minH={"70vh"} paddingY={6} roundedRight={"md"}>
+    <Box bg="#F8F8F8" w="100%" minH={"70vh"} paddingY={6} roundedRight={"md"}>
       {folders.map((folder) => (
         <Box>
           {activeFolderId === folder.id && (
@@ -87,15 +87,15 @@ const TaskList = () => {
                     rounded="lg"
                     border="1px solid gray.300"
                     w={"70%"}
+                    h={"3rem"}
                     paddingX={6}
-                    paddingY={4}
                     m={2}
                     bg={
                       task.status === "todo"
                         ? "white"
                         : task.status === "doing"
                         ? "yellow.200"
-                        : "blue.400"
+                        : "teal.200"
                     }
                     _hover={
                       task.status === "todo"
@@ -115,11 +115,7 @@ const TaskList = () => {
                         <AlertDialogContent>
                           <ModalCloseButton />
 
-                          {task.status === "done" ? (
-                            <DoneTaskPage task={task} />
-                          ) : (
-                            <NotDoneTaskPage task={task} onClose={onClose} />
-                          )}
+                          <TaskPage task={task} />
 
                           <VStack
                             marginTop={4}
@@ -133,7 +129,7 @@ const TaskList = () => {
 
                     <Flex justifyContent={"space-between"}>
                       <FontAwesomeIcon
-                        size="lg"
+                        size="xl"
                         icon={
                           task.status === "doing"
                             ? faPersonRunning
@@ -142,21 +138,29 @@ const TaskList = () => {
                         style={{
                           color:
                             task.status === "doing"
-                              ? "#F7A072"
+                              ? "#f7a072"
                               : task.status === "todo"
-                              ? "#CBD5E0"
-                              : "#1275AE",
+                              ? "#BDBDBD"
+                              : "#0fa3b1",
                         }}
                         shake={task.status === "doing"}
                       />
-                      <Text key={task.id} marginRight={6}>
-                        {task.title}
-                      </Text>
+                      <Center w={"100%"}>
+                        <Text
+                          key={task.id}
+                          marginRight={6}
+                          fontSize={"gl"}
+                          color={"blackAlpha.800"}
+                        >
+                          {task.title}
+                        </Text>
+                      </Center>
                     </Flex>
                   </Box>
                 ))}
-
-                <CreateTaskButton activeFolderId={activeFolderId} />
+                <Box paddingTop={6} textAlign={"center"}>
+                  <CreateTaskButton activeFolderId={activeFolderId} />
+                </Box>
               </VStack>
             </Box>
           )}

@@ -4,26 +4,23 @@ const theme = extendTheme({
   styles: {
     global: {
       body: {
-        backgroundColor: "blue.50",
-        color: "gray.700",
+        backgroundColor: "#FFFEF8",
+        color: "BlackAlpha.700",
       },
     },
   },
   colors: {
-    blue: {
-      700: "#1275AE",
-      400: "#5FA8D3", //主にポジティブな意味のボタンに使用
-      100: "#E2EAF4", //タスク一覧の背景色
-      50: "#F9FBFE", //全体の背景色
+    teal: {
+      50: "#DBE9E8",
+      200: "#B1E5DC",
+      500: "#0fa3b1",
     },
     yellow: {
-      500: "#F7A072", //作業中タスクのアイコン
-      200: "#EDDEA4", //作業中のタスク
+      200: "#F5E6AA",
     },
     orange: {
-      300: "#B19218",
+      200: "#f7a072",
     },
-    // grayは300を使う
   },
 });
 

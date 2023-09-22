@@ -98,7 +98,7 @@ const CreateTaskButton = ({
     <>
       <Button
         onClick={onOpen}
-        bg={"blue.100"}
+        bg={"teal.50"}
         _hover={{
           bg: "gray.300",
           ".rotate-icon": {
@@ -108,6 +108,8 @@ const CreateTaskButton = ({
         }}
         border={"1px solid"}
         borderColor={"gray.300"}
+        textColor={"teal.700"}
+        fontSize={"sm"}
       >
         <HStack>
           <Icon as={AddIcon} className="rotate-icon" />
@@ -165,7 +167,7 @@ const CreateTaskButton = ({
                 <Button
                   isLoading={isSubmitting}
                   type="submit"
-                  bg="blue.400"
+                  bg="teal.400"
                   textColor="white"
                 >
                   作成

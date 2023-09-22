@@ -161,7 +161,7 @@ const Login = () => {
               isLoading={isSubmitting}
               type="submit"
               marginY={6}
-              bg={"blue.400"}
+              bg={"teal.400"}
               textColor={"white"}
               _hover={{ opacity: 0.8 }}
             >
@@ -176,8 +176,8 @@ const Login = () => {
           onClick={() => navigate("/signup")}
           m={2}
           variant={"outline"}
-          borderColor={"blue.400"}
-          textColor={"blue.400"}
+          borderColor={"teal.400"}
+          textColor={"teal.400"}
           _hover={{ opacity: 0.8 }}
         >
           新規登録

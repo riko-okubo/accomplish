@@ -327,7 +327,7 @@ const Signup = () => {
               isLoading={isSubmitting}
               type="submit"
               marginY={6}
-              bg={"blue.400"}
+              bg={"teal.400"}
               textColor={"white"}
               _hover={{ opacity: 0.8 }}
             >
