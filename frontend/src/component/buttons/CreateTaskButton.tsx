@@ -19,8 +19,9 @@ import { useForm } from "react-hook-form";
 import { Task } from "../../type/Types";
 import { useContext } from "react";
 import { TaskContext } from "../../context/TaskContext";
-import { useAuth } from "../../context/AuthContext";
 import { accessPointURL } from "../../api/accessPoint";
+import { useUser } from "../../context/UserContext";
+import { useCookies } from "react-cookie";
 
 type formInputs = {
   task_name: string;
@@ -33,7 +34,8 @@ const CreateTaskButton = ({
   activeFolderId: number | null;
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user, auth } = useAuth();
+  const { user } = useUser();
+  const [cookies, setCookie] = useCookies(["token"]);
   const { tasks, setTasks } = useContext(TaskContext);
 
   const {
@@ -71,7 +73,6 @@ const CreateTaskButton = ({
         body: JSON.stringify(postTaskData),
       });
       if (response.status === 201) {
-        const responseData = await response.json();
         setTasks(
           tasks.map((task) => {
             if (task.id === taskId) {
@@ -86,7 +87,7 @@ const CreateTaskButton = ({
       }
     };
 
-    postTask(auth.token);
+    postTask(cookies.token);
 
     data.task_name = "";
     data.task_content = "";

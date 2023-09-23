@@ -16,14 +16,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 import { faPersonRunning } from "@fortawesome/free-solid-svg-icons";
 import { CreateTaskButton } from "./buttons/CreateTaskButton";
-import { useAuth } from "../context/AuthContext";
 import { accessPointURL } from "../api/accessPoint";
 import { TaskPage } from "../pages/TaskPage";
 import { Task } from "../type/Types";
+import { useCookies } from "react-cookie";
 
 const TaskList = () => {
+  const [cookies, setCookie] = useCookies(["token"]);
   const { folders, activeFolderId } = useContext(FolderContext);
-  const { user, auth } = useAuth();
   const { tasks, setTasks } = useContext(TaskContext);
 
   const getFolderIdTasks = async (token: string, folderId: number) => {
@@ -51,20 +51,20 @@ const TaskList = () => {
   };
   const onClose = () => {
     setSelectedItem(null);
-    if (auth.token !== undefined && activeFolderId !== null) {
-      getFolderIdTasks(auth.token, activeFolderId!);
+    if (cookies.token !== undefined && activeFolderId !== null) {
+      getFolderIdTasks(cookies.token, activeFolderId!);
     } else {
-      // console.log("auth.tokenがundefinedです");
+      // console.log("cookies.tokenがundefinedです");
     }
   };
 
   useEffect(() => {
-    if (auth.token !== undefined && activeFolderId !== null) {
-      getFolderIdTasks(auth.token, activeFolderId!);
+    if (cookies.token !== undefined && activeFolderId !== null) {
+      getFolderIdTasks(cookies.token, activeFolderId!);
     } else {
-      // console.log("TaskList : auth.tokenがundefinedです");
+      // console.log("TaskList : cookies.tokenがundefinedです");
     }
-  }, [auth.token, activeFolderId]);
+  }, [cookies.token, activeFolderId]);
   return (
     <Box bg="#F8F8F8" w="100%" minH={"70vh"} paddingY={6} roundedRight={"md"}>
       {folders.map((folder) => (

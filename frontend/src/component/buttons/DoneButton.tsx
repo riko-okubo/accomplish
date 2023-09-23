@@ -1,6 +1,6 @@
 import { Button } from "@chakra-ui/react";
-import { useAuth } from "../../context/AuthContext";
 import { accessPointURL } from "../../api/accessPoint";
+import { useCookies } from "react-cookie";
 
 const DoneButton = ({
   taskId,
@@ -11,13 +11,13 @@ const DoneButton = ({
   onClose: () => void;
   memo: string;
 }) => {
-  const { auth } = useAuth();
+  const [cookies, setCookie] = useCookies(["token"]);
   const patchStatus = async () => {
     const response = await fetch(`${accessPointURL}task/${taskId}/`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: `Token ${auth.token}`,
+        Authorization: `Token ${cookies.token}`,
       },
       body: `status=done`,
     });
@@ -34,7 +34,7 @@ const DoneButton = ({
       method: "PATCH",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: `Token ${auth.token}`,
+        Authorization: `Token ${cookies.token}`,
       },
       body: `memo=${memo}`,
     });

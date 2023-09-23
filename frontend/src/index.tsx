@@ -4,7 +4,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { theme } from "./style/theme";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./Routes";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider } from "./context/UserContext";
 import { TaskContextProvider } from "./context/TaskContext";
 import { CookiesProvider } from "react-cookie";
 const root = ReactDOM.createRoot(

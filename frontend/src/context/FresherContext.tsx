@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { Fresher, Freshers } from "../type/Types";
 import { accessPointURL } from "../api/accessPoint";
-import { useAuth } from "./AuthContext";
+import { useCookies } from "react-cookie";
 
 const FresherContext = createContext<{
   activeFresher: Fresher | null;
@@ -27,7 +27,7 @@ const FresherContextProvider = ({
   const [activeFresher, setActiveFresher] = useState<Fresher | null>(null);
   const [freshers, setFreshers] = useState<Freshers>([]);
   const [fresher, setFresher] = useState<Fresher>({} as Fresher);
-  const { auth } = useAuth();
+  const [cookies, setCookie] = useCookies(["token"]);
 
   const getFreshers = async (token: string) => {
     const response = await fetch(`${accessPointURL}get_subordinates/`, {
@@ -49,10 +49,10 @@ const FresherContextProvider = ({
   };
 
   useEffect(() => {
-    if (auth.token !== undefined) {
-      getFreshers(auth.token);
+    if (cookies.token !== undefined) {
+      getFreshers(cookies.token);
     }
-  }, [auth.token]);
+  }, [cookies.token]);
 
   return (
     <FresherContext.Provider

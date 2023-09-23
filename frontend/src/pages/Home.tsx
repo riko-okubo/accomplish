@@ -5,16 +5,17 @@ import { FolderContextProvider } from "../context/FolderContext";
 import { FolderList } from "../component/FolderList";
 import { TaskContextProvider } from "../context/TaskContext";
 import { getUser } from "../api/get";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+import { User } from "../type/Types";
 
 const Home = () => {
-  const [cookies, setCookie] = useCookies(["token", "user_id", "user_name"]);
+  const [cookies, setCookie] = useCookies(["token"]);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     getUser(cookies.token).then((res) => {
-      setCookie("user_id", res.id);
-      setCookie("user_name", res.username);
+      setUser(res);
     });
   }, [cookies.token, setCookie]);
 
@@ -22,7 +23,7 @@ const Home = () => {
     <HStack>
       <VStack w={"100%"} h={"100%"} marginLeft={"80px"}>
         <Box w="auto" h={"10vh"} marginTop={8} paddingY={2} fontSize="3xl">
-          Hello! {cookies.user_name}
+          Hello! {user?.username}
         </Box>
         <Flex
           w={"80%"}
