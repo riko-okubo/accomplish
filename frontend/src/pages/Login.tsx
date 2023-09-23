@@ -16,8 +16,8 @@ import {
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useState } from "react";
-import { useAuth } from "../context/AuthContext";
 import { accessPointURL } from "../api/accessPoint";
+import { useCookies } from "react-cookie";
 
 type formInputs = {
   email: string;
@@ -27,29 +27,13 @@ const Login = () => {
   const navigate = useNavigate();
   const toast = useToast();
   const [showPassword, setShowPassword] = useState(false);
-  const { setAuth } = useAuth();
+  const [cookies, setCookie] = useCookies(["token", "user_id", "user_name"]);
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
   } = useForm<formInputs>();
 
-  const getUser_Initial = async (token: string) => {
-    const response = await fetch(`${accessPointURL}check_token/`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${token}`,
-      },
-    });
-    if (response.status === 401) {
-      console.log("tokenが無効です");
-    } else if (response.status === 200) {
-      navigate("/home");
-    } else {
-      console.log("GET失敗");
-    }
-  };
   const onSubmit = handleSubmit(async (data) => {
     const response = await fetch(`${accessPointURL}signin/`, {
       method: "POST",
@@ -63,8 +47,8 @@ const Login = () => {
     });
     if (response.status === 200) {
       const responseData = await response.json();
-      console.log("POST成功:", responseData.token);
-      setAuth({ token: responseData.token });
+      setCookie("token", responseData.token);
+      navigate("/home");
       toast({
         title: "ログインしました",
         status: "success",
@@ -72,7 +56,6 @@ const Login = () => {
         duration: 3000,
         isClosable: true,
       });
-      getUser_Initial(responseData.token);
     } else {
       const errorData = await response.json();
       console.log("POST失敗", errorData.message);

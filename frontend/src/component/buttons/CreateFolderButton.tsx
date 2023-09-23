@@ -17,8 +17,8 @@ import {
 import { AddIcon, Icon } from "@chakra-ui/icons";
 import { useContext, useState } from "react";
 import { FolderContext } from "../../context/FolderContext";
-import { accessPointURL } from "../../api/accessPoint";
-import { useAuth } from "../../context/AuthContext";
+import { useCookies } from "react-cookie";
+import { postFolder } from "../../api/post";
 
 const CreateFolderButton = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,7 +26,7 @@ const CreateFolderButton = () => {
   const [vision, setVision] = useState("");
   const [error, setError] = useState("");
 
-  const { user, auth } = useAuth();
+  const [cookies, setCookie] = useCookies(["token", "user_id", "user_name"]);
   const { folders, setFolders, setActiveFolderId } = useContext(FolderContext);
 
   const handleSubmit = async () => {
@@ -40,24 +40,12 @@ const CreateFolderButton = () => {
         tasks: [],
       };
       const postFolderContents = {
-        receiver_id: user.id,
+        receiver_id: cookies.user_id,
         title: title,
         vision: vision,
         tasks: [],
       };
-      const response = await fetch(`${accessPointURL}folders/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Token ${auth.token}`,
-        },
-        body: JSON.stringify(postFolderContents),
-      });
-      if (response.status === 201) {
-        console.log("POST成功");
-      } else {
-        console.log("POST失敗");
-      }
+      postFolder(cookies.token, postFolderContents);
 
       setFolders([...folders, createFolderContents]);
       setActiveFolderId(createFolderContents.id);

@@ -53,24 +53,24 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       },
     });
     if (response.status === 401) {
-      console.log("tokenが無効です");
+      // console.log("tokenが無効です");
       setLogin(false);
       return;
     } else if (response.status === 200) {
       const responseData = await response.json();
-      console.log("GET成功:", responseData);
+      // console.log("GET成功:", responseData);
       setUser(responseData);
     } else {
-      console.log("GET失敗");
+      // console.log("GET失敗");
     }
   };
   useEffect(() => {
     if (auth.token !== undefined) {
-      console.log("auth.token:", auth.token);
+      // console.log("auth Context : auth.token:", auth.token);
       getUser(auth.token);
       setLogin(true);
     } else {
-      console.log("token 取得失敗");
+      // console.log("token 取得失敗");
       setLogin(false);
     }
   }, [auth]);

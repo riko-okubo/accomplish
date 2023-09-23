@@ -1,9 +1,10 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Flex, Button, Box } from "@chakra-ui/react";
 import { CreateFolderButton } from "./buttons/CreateFolderButton";
 import { Folder, Folders } from "../type/Types";
 import { FolderContext } from "../context/FolderContext";
-import { useAuth } from "../context/AuthContext";
+import { getFolders } from "../api/get";
+import { useCookies } from "react-cookie";
 
 type Props = {
   activeFolderId: number | null;
@@ -13,8 +14,16 @@ type Props = {
 };
 
 const FolderList = () => {
-  const { activeFolderId, setActiveFolderId, folders }: Props =
+  const { activeFolderId, setActiveFolderId, folders, setFolders }: Props =
     useContext(FolderContext);
+  const [cookies, setCookie] = useCookies(["token", "user_id", "user_name"]);
+
+  useEffect(() => {
+    getFolders(cookies.token).then((res) => {
+      setFolders(res);
+      console.log(res);
+    });
+  }, [cookies.token, setFolders]);
 
   const handleFolderClick = (folder: Folder) => {
     console.log(folder);

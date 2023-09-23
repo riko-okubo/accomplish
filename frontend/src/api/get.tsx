@@ -9,6 +9,9 @@ const getUser = async (token: string) => {
     },
   });
   const responseData = await response.json();
+  if (response.status === 201) {
+    console.log("GET成功:", responseData);
+  }
   return responseData;
 };
 export { getUser };

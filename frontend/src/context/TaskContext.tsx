@@ -48,16 +48,16 @@ const TaskContextProvider = ({ children }: { children: React.ReactNode }) => {
       console.log("TASK GET:", responseData);
       setTasks(responseData);
     } else {
-      console.log("GET失敗");
+      // console.log("GET失敗");
     }
   };
 
   useEffect(() => {
     if (auth.token !== undefined) {
-      console.log("auth.token:", auth.token);
+      // console.log("Task Context : auth.token:", auth.token);
       getTasks(auth.token);
     } else {
-      console.log("auth.tokenがundefinedです");
+      // console.log("auth.tokenがundefinedです");
     }
   }, [auth.token, task]);
 

@@ -54,7 +54,7 @@ const TaskList = () => {
     if (auth.token !== undefined && activeFolderId !== null) {
       getFolderIdTasks(auth.token, activeFolderId!);
     } else {
-      console.log("auth.tokenがundefinedです");
+      // console.log("auth.tokenがundefinedです");
     }
   };
 
@@ -62,7 +62,7 @@ const TaskList = () => {
     if (auth.token !== undefined && activeFolderId !== null) {
       getFolderIdTasks(auth.token, activeFolderId!);
     } else {
-      console.log("auth.tokenがundefinedです");
+      // console.log("TaskList : auth.tokenがundefinedです");
     }
   }, [auth.token, activeFolderId]);
   return (

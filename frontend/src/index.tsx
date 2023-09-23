@@ -6,17 +6,20 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "./Routes";
 import { AuthProvider } from "./context/AuthContext";
 import { TaskContextProvider } from "./context/TaskContext";
+import { CookiesProvider } from "react-cookie";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
-      <AuthProvider>
-        <TaskContextProvider>
-          <RouterProvider router={router} />
-        </TaskContextProvider>
-      </AuthProvider>
+      <CookiesProvider defaultSetOptions={{ path: "/" }}>
+        {/* <AuthProvider>
+          <TaskContextProvider> */}
+        <RouterProvider router={router} />
+        {/* </TaskContextProvider>
+        </AuthProvider> */}
+      </CookiesProvider>
     </ChakraProvider>
   </React.StrictMode>
 );

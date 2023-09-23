@@ -1,8 +1,7 @@
-import { useAuth } from "../context/AuthContext";
-import { Folder } from "../type/Types";
+import { PostFolder } from "../type/Types";
 import { accessPointURL } from "./accessPoint";
 
-const postFolder = async (postFolderContents: Folder, token: string) => {
+const postFolder = async (token: string, postFolderContents: PostFolder) => {
   const response = await fetch(`${accessPointURL}folders/`, {
     method: "POST",
     headers: {

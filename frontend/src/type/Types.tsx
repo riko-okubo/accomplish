@@ -18,6 +18,13 @@ export type Auth = {
   // user: User;
 };
 
+export type PostFolder = {
+  receiver_id: number;
+  title: string;
+  vision: string;
+  tasks: Task[];
+};
+
 export type PostTask = {
   receiver_id: number;
   folder_id: number;
