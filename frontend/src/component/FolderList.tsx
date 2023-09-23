@@ -16,12 +16,11 @@ type Props = {
 const FolderList = () => {
   const { activeFolderId, setActiveFolderId, folders, setFolders }: Props =
     useContext(FolderContext);
-  const [cookies, setCookie] = useCookies(["token", "user_id", "user_name"]);
+  const [cookies] = useCookies(["token"]);
 
   useEffect(() => {
     getFolders(cookies.token).then((res) => {
       setFolders(res);
-      console.log(res);
     });
   }, [cookies.token, setFolders]);
 

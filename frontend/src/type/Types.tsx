@@ -22,7 +22,7 @@ export type PostFolder = {
   receiver_id: number;
   title: string;
   vision: string;
-  tasks: Task[];
+  status: string;
 };
 
 export type PostTask = {

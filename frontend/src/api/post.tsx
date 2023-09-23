@@ -1,4 +1,4 @@
-import { PostFolder } from "../type/Types";
+import { PostFolder, PostTask } from "../type/Types";
 import { accessPointURL } from "./accessPoint";
 
 const postFolder = async (token: string, postFolderContents: PostFolder) => {
@@ -18,7 +18,7 @@ const postFolder = async (token: string, postFolderContents: PostFolder) => {
 };
 export { postFolder };
 
-const postTask = async (postTaskContents: any, token: string) => {
+const postTask = async (token: string, postTaskContents: PostTask) => {
   const response = await fetch(`${accessPointURL}task/`, {
     method: "POST",
     headers: {

@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { User } from "../type/Types";
+import { getUser } from "../api/get";
+import { useCookies } from "react-cookie";
+
 type UserContextType = {
   user: User;
   setUser: React.Dispatch<React.SetStateAction<User>>;
 };
+
 const LoginContext = React.createContext<boolean>(false);
 const UserContext = React.createContext<UserContextType>({
   user: {
@@ -26,6 +30,7 @@ const useUser = () => {
   return useContext(UserContext);
 };
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
+  const [cookies, setCookie] = useCookies(["token"]);
   const [login] = useState<boolean>(false);
   const [user, setUser] = useState<User>({
     id: 0,
@@ -40,6 +45,12 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
     count_emotions: 0,
     count_comment: 0,
   });
+
+  useEffect(() => {
+    getUser(cookies.token).then((res) => {
+      setUser(res);
+    });
+  }, [cookies.token, setCookie]);
 
   return (
     <LoginContext.Provider value={login}>

@@ -15,9 +15,9 @@ root.render(
     <ChakraProvider theme={theme}>
       <CookiesProvider defaultSetOptions={{ path: "/" }}>
         <UserProvider>
-          <TaskContextProvider>
-            <RouterProvider router={router} />
-          </TaskContextProvider>
+          {/* <TaskContextProvider> */}
+          <RouterProvider router={router} />
+          {/* </TaskContextProvider> */}
         </UserProvider>
       </CookiesProvider>
     </ChakraProvider>
