@@ -17,62 +17,55 @@ import {
 import { AddIcon, Icon } from "@chakra-ui/icons";
 import { useContext, useState } from "react";
 import { FolderContext } from "../../context/FolderContext";
-import { accessPointURL } from "../../api/accessPoint";
-import { useAuth } from "../../context/AuthContext";
+import { useCookies } from "react-cookie";
+import { postFolder } from "../../api/post";
+import { useUser } from "../../context/UserContext";
+import { useForm } from "react-hook-form";
+
+type formInputs = {
+  title: string;
+  vision: string;
+};
 
 const CreateFolderButton = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [title, setTitle] = useState("");
-  const [vision, setVision] = useState("");
-  const [error, setError] = useState("");
-
-  const { user, auth } = useAuth();
+  const [cookies] = useCookies(["token"]);
+  const { user } = useUser();
   const { folders, setFolders, setActiveFolderId } = useContext(FolderContext);
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<formInputs>();
 
-  const handleSubmit = async () => {
-    if (vision.trim() === "" || title.trim() === "") {
-      setError("入力必須です。空白は使用できません");
-    } else {
-      const createFolderContents = {
-        id: folders.length + 1,
-        title: title,
-        vision: vision,
-        tasks: [],
-      };
-      const postFolderContents = {
-        receiver_id: user.id,
-        title: title,
-        vision: vision,
-        tasks: [],
-      };
-      const response = await fetch(`${accessPointURL}folders/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Token ${auth.token}`,
-        },
-        body: JSON.stringify(postFolderContents),
-      });
-      if (response.status === 201) {
-        console.log("POST成功");
-      } else {
-        console.log("POST失敗");
-      }
+  const onSubmit = handleSubmit((data) => {
+    const createFolderContents = {
+      id: folders.length + 1,
+      title: data.title,
+      vision: data.vision,
+      tasks: [],
+    };
+    const postFolderContents = {
+      receiver_id: user.id,
+      title: data.title,
+      vision: data.vision,
+      status: "todo",
+    };
+    postFolder(cookies.token, postFolderContents);
+    setFolders([...folders, createFolderContents]);
+    setActiveFolderId(createFolderContents.id);
+    reset();
+    onClose();
+  });
 
-      setFolders([...folders, createFolderContents]);
-      setActiveFolderId(createFolderContents.id);
-      setTitle("");
-      setVision("");
-      onClose();
-    }
-  };
   const handleButtonClick = () => {
     setIsOpen(!isOpen);
   };
   const onClose = () => {
     setIsOpen(false);
-    setError("");
   };
+
   return (
     <Popover placement="right" isOpen={isOpen}>
       <PopoverTrigger>
@@ -97,40 +90,61 @@ const CreateFolderButton = () => {
         <PopoverHeader>
           <center>フォルダの追加</center>
         </PopoverHeader>
-        <PopoverBody marginY="2">
-          <FormControl isInvalid={Boolean(error)}>
-            <FormLabel w="60vh" marginX="2" marginY="2">
-              フォルダ名
-            </FormLabel>
-            <Input value={title} onChange={(e) => setTitle(e.target.value)} />
-            <FormErrorMessage>{error}</FormErrorMessage>
-          </FormControl>
-          <FormControl isInvalid={Boolean(error)}>
-            <FormLabel w="60vh" marginX="2" marginY="2">
-              ビジョン
-            </FormLabel>
-            <Input
-              id="vision"
-              value={vision}
-              onChange={(e) => setVision(e.target.value)}
-              isInvalid={vision.length === 0}
-            />
-            <FormErrorMessage>{error}</FormErrorMessage>
-          </FormControl>
-        </PopoverBody>
-        <PopoverFooter border="none">
-          <Flex justifyContent="flex-end">
-            <Button
-              colorScheme="blue"
-              type="submit"
-              mr={3}
-              onClick={handleSubmit}
-              mb="4"
-            >
-              追加
-            </Button>
-          </Flex>
-        </PopoverFooter>
+        <form onSubmit={onSubmit}>
+          <PopoverBody marginY="2">
+            <FormControl>
+              <FormLabel w="60vh" marginX="2" marginY="2">
+                フォルダ名
+              </FormLabel>
+              <Input
+                id="title"
+                type="text"
+                {...register("title", {
+                  required: "必須項目です",
+                  maxLength: {
+                    value: 20,
+                    message: "20文字以内で入力してください",
+                  },
+                })}
+              />
+              {errors.title && (
+                <FormErrorMessage>{errors.title.message}</FormErrorMessage>
+              )}
+            </FormControl>
+            <FormControl>
+              <FormLabel w="60vh" marginX="2" marginY="2">
+                ビジョン
+              </FormLabel>
+              <Input
+                id="vision"
+                type="text"
+                {...register("vision", {
+                  required: "必須項目です",
+                  maxLength: {
+                    value: 20,
+                    message: "20文字以内で入力してください",
+                  },
+                })}
+              />
+              {errors.vision && (
+                <FormErrorMessage>{errors.vision.message}</FormErrorMessage>
+              )}
+            </FormControl>
+          </PopoverBody>
+          <PopoverFooter border="none">
+            <Flex justifyContent="flex-end">
+              <Button
+                colorScheme="blue"
+                type="submit"
+                mr={3}
+                isLoading={isSubmitting}
+                mb="4"
+              >
+                追加
+              </Button>
+            </Flex>
+          </PopoverFooter>
+        </form>
       </PopoverContent>
     </Popover>
   );

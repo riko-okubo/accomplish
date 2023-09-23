@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/UserContext";
 
 const Logout = () => {
   const { setAuth } = useAuth();

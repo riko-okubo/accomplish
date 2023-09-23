@@ -19,8 +19,9 @@ import { useForm } from "react-hook-form";
 import { Task } from "../../type/Types";
 import { useContext } from "react";
 import { TaskContext } from "../../context/TaskContext";
-import { useAuth } from "../../context/AuthContext";
-import { accessPointURL } from "../../api/accessPoint";
+import { useUser } from "../../context/UserContext";
+import { useCookies } from "react-cookie";
+import { postTask } from "../../api/post";
 
 type formInputs = {
   task_name: string;
@@ -33,64 +34,40 @@ const CreateTaskButton = ({
   activeFolderId: number | null;
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user, auth } = useAuth();
+  const { user } = useUser();
+  const [cookies] = useCookies(["token"]);
   const { tasks, setTasks } = useContext(TaskContext);
-
   const {
     handleSubmit,
     register,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<formInputs>();
 
   const onSubmit = handleSubmit((data) => {
-    const taskId = tasks.length + 1;
     const newTask: Task = {
-      id: taskId,
+      id: tasks.length + 1,
       title: data.task_name,
       content: data.task_content,
       memo: data.task_name,
       status: "todo",
     };
 
-    const postTaskData = {
-      receiver_id: user.id,
-      folder_id: activeFolderId,
-      title: data.task_name,
-      content: data.task_content,
-      memo: "",
-      status: "todo",
-    };
-
-    const postTask = async (token: string) => {
-      const response = await fetch(`${accessPointURL}task/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Token ${token}`,
-        },
-        body: JSON.stringify(postTaskData),
-      });
-      if (response.status === 201) {
-        const responseData = await response.json();
-        setTasks(
-          tasks.map((task) => {
-            if (task.id === taskId) {
-              return newTask;
-            } else {
-              return task;
-            }
-          })
-        );
-      } else {
-        console.log("POST失敗");
-      }
-    };
-
-    postTask(auth.token);
-
-    data.task_name = "";
-    data.task_content = "";
-
+    if (activeFolderId === null) {
+      console.log("activeFolderIdがnullです");
+    } else {
+      const postTaskData = {
+        receiver_id: user.id,
+        folder_id: activeFolderId,
+        title: data.task_name,
+        content: data.task_content,
+        memo: "",
+        status: "todo",
+      };
+      postTask(cookies.token, postTaskData);
+      setTasks([...tasks, newTask]);
+    }
+    reset();
     onClose();
   });
 

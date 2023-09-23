@@ -1,7 +1,8 @@
 import { createContext, useState, useEffect } from "react";
-import { useAuth } from "./AuthContext";
 import { accessPointURL } from "../api/accessPoint";
 import { Folders } from "../type/Types";
+import { useUser } from "./UserContext";
+import { useCookies } from "react-cookie";
 
 type ElderFolderContextType = {
   elderFolders: Folders;
@@ -19,7 +20,8 @@ const ElderFolderContextProvider = ({
   children: React.ReactNode;
 }) => {
   const [elderFolders, setElderFolders] = useState<Folders>([]);
-  const { user, auth } = useAuth();
+  const { user } = useUser();
+  const [cookies] = useCookies(["token"]);
 
   const getElderFolder = async ({
     token,
@@ -43,10 +45,10 @@ const ElderFolderContextProvider = ({
   };
 
   useEffect(() => {
-    if (auth.token !== undefined) {
-      getElderFolder({ token: auth.token, userId: user.id });
+    if (cookies.token !== undefined) {
+      getElderFolder({ token: cookies.token, userId: user.id });
     }
-  }, [auth.token, user.id, elderFolders]);
+  }, [cookies.token, user.id, elderFolders]);
 
   return (
     <ElderFolderContext.Provider

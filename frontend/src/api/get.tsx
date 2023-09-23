@@ -9,6 +9,9 @@ const getUser = async (token: string) => {
     },
   });
   const responseData = await response.json();
+  if (response.status === 201) {
+    console.log("GET成功:", responseData);
+  }
   return responseData;
 };
 export { getUser };
@@ -26,8 +29,8 @@ const getFolders = async (token: string) => {
 };
 export { getFolders };
 
-const getTasks = async (folderId: string, token: string) => {
-  const response = await fetch(`${accessPointURL}task/folder_id=${folderId}`, {
+const getTasks = async (folderId: number, token: string) => {
+  const response = await fetch(`${accessPointURL}task/?folder_id=${folderId}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

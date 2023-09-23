@@ -16,34 +16,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 import { faPersonRunning } from "@fortawesome/free-solid-svg-icons";
 import { CreateTaskButton } from "./buttons/CreateTaskButton";
-import { useAuth } from "../context/AuthContext";
-import { accessPointURL } from "../api/accessPoint";
 import { TaskPage } from "../pages/TaskPage";
 import { Task } from "../type/Types";
+import { useCookies } from "react-cookie";
+import { getTasks } from "../api/get";
 
 const TaskList = () => {
+  const [cookies] = useCookies(["token"]);
   const { folders, activeFolderId } = useContext(FolderContext);
-  const { user, auth } = useAuth();
   const { tasks, setTasks } = useContext(TaskContext);
 
-  const getFolderIdTasks = async (token: string, folderId: number) => {
-    const response = await fetch(
-      `${accessPointURL}task/?folder_id=${folderId}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Token ${token}`,
-        },
-      }
-    );
-    if (response.status === 200) {
-      const responseData = await response.json();
-      setTasks(responseData);
-    } else {
-      console.log("GET失敗");
-    }
-  };
   const leastDestructiveRef = useRef(null);
   const [selectedItem, setSelectedItem] = useState<Task | null>(null);
   const onOpen = (task: Task) => {
@@ -51,24 +33,20 @@ const TaskList = () => {
   };
   const onClose = () => {
     setSelectedItem(null);
-    if (auth.token !== undefined && activeFolderId !== null) {
-      getFolderIdTasks(auth.token, activeFolderId!);
-    } else {
-      console.log("auth.tokenがundefinedです");
-    }
   };
 
   useEffect(() => {
-    if (auth.token !== undefined && activeFolderId !== null) {
-      getFolderIdTasks(auth.token, activeFolderId!);
-    } else {
-      console.log("auth.tokenがundefinedです");
+    if (cookies.token !== undefined && activeFolderId !== null) {
+      getTasks(activeFolderId, cookies.token).then((res) => {
+        setTasks(res);
+      });
     }
-  }, [auth.token, activeFolderId]);
+  }, [cookies.token, activeFolderId, setTasks]);
+
   return (
     <Box bg="#F8F8F8" w="100%" minH={"70vh"} paddingY={6} roundedRight={"md"}>
       {folders.map((folder) => (
-        <Box>
+        <Box key={folder.id}>
           {activeFolderId === folder.id && (
             <Box textAlign={"center"}>
               <Text fontSize="3xl" p={4}>
