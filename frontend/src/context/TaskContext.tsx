@@ -32,7 +32,7 @@ const TaskContextProvider = ({ children }: { children: React.ReactNode }) => {
     id: 0,
   });
   const [tasks, setTasks] = useState<Tasks>([]);
-  const [cookies, setCookie] = useCookies(["token"]);
+  const [cookies] = useCookies(["token"]);
 
   const getTasks = async (token: string) => {
     const response = await fetch(`${accessPointURL}task/?sent=me`, {

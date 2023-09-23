@@ -22,7 +22,7 @@ import { Task } from "../type/Types";
 import { useCookies } from "react-cookie";
 
 const TaskList = () => {
-  const [cookies, setCookie] = useCookies(["token"]);
+  const [cookies] = useCookies(["token"]);
   const { folders, activeFolderId } = useContext(FolderContext);
   const { tasks, setTasks } = useContext(TaskContext);
 

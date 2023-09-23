@@ -26,7 +26,7 @@ const useUser = () => {
   return useContext(UserContext);
 };
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
-  const [login, setLogin] = useState<boolean>(false);
+  const [login] = useState<boolean>(false);
   const [user, setUser] = useState<User>({
     id: 0,
     username: "",

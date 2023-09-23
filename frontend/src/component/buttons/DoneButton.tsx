@@ -11,7 +11,7 @@ const DoneButton = ({
   onClose: () => void;
   memo: string;
 }) => {
-  const [cookies, setCookie] = useCookies(["token"]);
+  const [cookies] = useCookies(["token"]);
   const patchStatus = async () => {
     const response = await fetch(`${accessPointURL}task/${taskId}/`, {
       method: "PATCH",

@@ -21,7 +21,7 @@ const ElderFolderContextProvider = ({
 }) => {
   const [elderFolders, setElderFolders] = useState<Folders>([]);
   const { user } = useUser();
-  const [cookies, setCookie] = useCookies(["token"]);
+  const [cookies] = useCookies(["token"]);
 
   const getElderFolder = async ({
     token,

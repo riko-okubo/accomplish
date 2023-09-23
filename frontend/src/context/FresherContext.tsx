@@ -27,7 +27,7 @@ const FresherContextProvider = ({
   const [activeFresher, setActiveFresher] = useState<Fresher | null>(null);
   const [freshers, setFreshers] = useState<Freshers>([]);
   const [fresher, setFresher] = useState<Fresher>({} as Fresher);
-  const [cookies, setCookie] = useCookies(["token"]);
+  const [cookies] = useCookies(["token"]);
 
   const getFreshers = async (token: string) => {
     const response = await fetch(`${accessPointURL}get_subordinates/`, {

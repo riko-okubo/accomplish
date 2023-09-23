@@ -35,7 +35,7 @@ const CreateTaskButton = ({
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user } = useUser();
-  const [cookies, setCookie] = useCookies(["token"]);
+  const [cookies] = useCookies(["token"]);
   const { tasks, setTasks } = useContext(TaskContext);
 
   const {
