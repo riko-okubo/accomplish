@@ -94,15 +94,7 @@ const TaskList = () => {
                       <AlertDialogOverlay>
                         <AlertDialogContent>
                           <ModalCloseButton />
-
                           <TaskPage task={task} />
-
-                          <VStack
-                            marginTop={4}
-                            justifyContent={"center"}
-                            alignItems={"center"}
-                            textAlign={"center"}
-                          ></VStack>
                         </AlertDialogContent>
                       </AlertDialogOverlay>
                     </AlertDialog>

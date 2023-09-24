@@ -1,13 +1,13 @@
 import { accessPointURL } from "./accessPoint";
 
-const patchStatus = async (taskId: string, token: string) => {
+const patchStatus = async (taskId: string, token: string, status: string) => {
   const response = await fetch(`${accessPointURL}task/${taskId}/`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
       Authorization: `Token ${token}`,
     },
-    body: `status=doing`,
+    body: `status=${status}`,
   });
   if (response.status === 200) {
     console.log("status PATCH成功", response);

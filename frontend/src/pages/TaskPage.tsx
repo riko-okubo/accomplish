@@ -1,35 +1,22 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Button, Text, VStack } from "@chakra-ui/react";
 import { Task } from "../type/Types";
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
+import { useContext } from "react";
+import { TaskContext } from "../context/TaskContext";
 
 const TaskPage = ({ task }: { task: Task }) => {
+  const { setTask } = useContext(TaskContext);
+  const navigate = useNavigate();
+  const handleClick = () => {
+    setTask(task);
+    navigate(`/taskdetail/${task.id}`);
+  };
+
   return (
-    <Box w="360px" mx="auto" textAlign="center">
-      <Text fontSize="3xl" mt="8" align={"center"} justifyContent={"center"}>
-        {task.title}
-      </Text>
-      <Text color="gray.500" mb="1" mt="2" textAlign={"left"}>
-        タスク内容
-      </Text>
-      <Box borderWidth="1px" borderRadius="lg" overflow="hidden" padding={"3"}>
-        <Text color="blackAlpha.800" textAlign={"left"}>
-          {task.content}
-        </Text>
-      </Box>
-      <Text color="gray.500" mb="1" mt="4" textAlign={"left"}>
-        メモ
-      </Text>
-      <Box
-        borderWidth="1px"
-        borderRadius="lg"
-        overflow="hidden"
-        padding={"2"}
-        minH={"3rem"}
-      >
-        <Text color="gray.500" textAlign={"left"}>
-          {task.memo}
-        </Text>
-      </Box>
-      <Box p={4}>
+    <Box p={2}>
+      <Box px={4} py={2}>
         <Text
           textAlign={"center"}
           fontSize={"xl"}
@@ -48,6 +35,25 @@ const TaskPage = ({ task }: { task: Task }) => {
             ? "In progress"
             : "todo"}
         </Text>
+      </Box>
+      <Box mx="auto" textAlign="center">
+        <VStack my={4}>
+          <Text fontSize="3xl" align={"center"} justifyContent={"center"}>
+            {task.title}
+          </Text>
+          <Text fontSize="xl" m="4" color="blackAlpha.600">
+            {task.content}
+          </Text>
+        </VStack>
+        <Button
+          onClick={handleClick}
+          bg="white"
+          color="gray.300"
+          _hover={{ color: "teal.200" }}
+        >
+          <Text pr={2}>open</Text>
+          <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+        </Button>
       </Box>
     </Box>
   );

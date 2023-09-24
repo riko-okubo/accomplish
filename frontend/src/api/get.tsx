@@ -43,7 +43,7 @@ const getTasks = async (folderId: number, token: string) => {
 export { getTasks };
 
 const getTask = async (taskId: string, token: string) => {
-  const response = await fetch(`${accessPointURL}task/${taskId}`, {
+  const response = await fetch(`${accessPointURL}task/${taskId}/`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
