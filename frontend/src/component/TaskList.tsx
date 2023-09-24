@@ -68,6 +68,8 @@ const TaskList = () => {
                     h={"3rem"}
                     paddingX={6}
                     m={2}
+                    boxShadow={"0 3px 4px 0 #DBE9E8"}
+                    _active={{ boxShadow: "none" }}
                     bg={
                       task.status === "todo"
                         ? "white"
@@ -77,7 +79,7 @@ const TaskList = () => {
                     }
                     _hover={
                       task.status === "todo"
-                        ? { bg: "gray.300" }
+                        ? { opacity: 0.6 }
                         : { opacity: 0.8 }
                     }
                     onClick={() => onOpen(task)}
