@@ -25,7 +25,7 @@ const FolderList = () => {
   }, [cookies.token, setFolders]);
 
   const handleFolderClick = (folder: Folder) => {
-    console.log(folder);
+    // console.log(folder);
     setActiveFolderId(folder.id);
   };
 

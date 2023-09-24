@@ -1,68 +1,84 @@
-import { Button } from "@chakra-ui/react";
-import { accessPointURL } from "../../api/accessPoint";
+import {
+  Button,
+  Text,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalOverlay,
+  useDisclosure,
+  useToast,
+  Box,
+} from "@chakra-ui/react";
 import { useCookies } from "react-cookie";
+import { patchStatus } from "../../api/patch";
 
-const DoneButton = ({
-  taskId,
-  onClose,
-  memo,
-}: {
-  taskId: number;
-  onClose: () => void;
-  memo: string;
-}) => {
+type Props = {
+  id: string | undefined;
+  update: boolean;
+  setUpdate: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const DoneButton = ({ id, update, setUpdate }: Props) => {
   const [cookies] = useCookies(["token"]);
-  const patchStatus = async () => {
-    const response = await fetch(`${accessPointURL}task/${taskId}/`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: `Token ${cookies.token}`,
-      },
-      body: `status=done`,
-    });
-    if (response.status === 200) {
-      console.log("status PATCH成功", response);
-      onClose();
-    } else {
-      console.log("PATCH失敗", response);
+  const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleClick = () => {
+    if (id !== undefined) {
+      patchStatus(id, cookies.token, "done").then((res) => {
+        toast({
+          title: "ステータスを変更しました",
+          status: "success",
+          position: "top",
+          duration: 3000,
+          isClosable: true,
+        });
+        setUpdate(!update);
+      });
     }
-  };
-
-  const patchMemo = async () => {
-    const response = await fetch(`${accessPointURL}task/${taskId}/`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: `Token ${cookies.token}`,
-      },
-      body: `memo=${memo}`,
-    });
-    if (response.status === 200) {
-      console.log("memo PATCH成功", response);
-      onClose();
-    } else {
-      console.log("PATCH失敗", response);
-    }
-  };
-
-  const handleClick = async () => {
-    console.log("1つめ");
-    await patchStatus();
-    console.log("2つめ");
-
-    await patchMemo();
   };
 
   return (
-    <Button
-      onClick={() => handleClick()}
-      bg={"blue.500"}
-      textColor={"white"}
-      _hover={{ opacity: 0.8 }}
-    >
-      Done !
-    </Button>
+    <>
+      <Button
+        onClick={onOpen}
+        bg="white"
+        border={"1px solid #B1E5DC"}
+        textColor="teal.400"
+        _hover={{ opacity: 0.8 }}
+      >
+        Done !
+      </Button>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalCloseButton />
+          <ModalBody textAlign="center">
+            <Text p="4">このタスクを完了しましたか？</Text>
+            <Box>
+              <Button
+                onClick={onClose}
+                textColor="gray.500"
+                bg="gray.100"
+                m="2"
+              >
+                No ×
+              </Button>
+              <Button
+                onClick={handleClick}
+                textColor="white"
+                bg="teal.400"
+                m="2"
+              >
+                YES !
+              </Button>
+            </Box>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </>
   );
 };
 
