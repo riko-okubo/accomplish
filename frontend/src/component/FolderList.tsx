@@ -30,7 +30,14 @@ const FolderList = () => {
   };
 
   return (
-    <Flex direction="column" bg="white" w={120} roundedLeft={"md"}>
+    <Flex
+      direction="column"
+      bg="white"
+      w={120}
+      roundedLeft={"md"}
+      boxShadow={"2px 0 2px 0 #DBE9E8"}
+      zIndex={1}
+    >
       {folders.length === 0 && (
         <Box paddingTop={4} textAlign={"center"}>
           <p>フォルダーがありません</p>
@@ -42,6 +49,11 @@ const FolderList = () => {
           key={folder.title}
           onClick={() => handleFolderClick(folder)}
           bg={activeFolderId === folder.id ? "teal.400" : "white"}
+          _hover={
+            activeFolderId === folder.id
+              ? {}
+              : { bg: "teal.50", textColor: "teal.700" }
+          }
           textColor={activeFolderId === folder.id ? "white" : "black"}
           size="lg"
         >
