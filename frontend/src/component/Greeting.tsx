@@ -17,7 +17,6 @@ const greetings = [
   "Hello !",
   "Bonjour !",
   "Ciao !",
-  "Hallo !",
   "こんにちは !",
   "안녕하세요 !",
   "你好 !",
@@ -27,7 +26,7 @@ const greetings = [
 ];
 
 const Greeting = () => {
-  const random = Math.floor(Math.random() * 9) + 1;
+  const random = Math.floor(Math.random() * 8) + 1;
   return (
     <div>
       <h1>{greetings[random]}</h1>
