@@ -1,10 +1,10 @@
-import { Box, Button, Center } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 const Welcome = () => {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate("/home");
+    navigate("/login");
   };
   return (
     <Box textAlign="center" mt="8">
